@@ -5,15 +5,28 @@ import * as DockerUtils from './DockerUtils';
 import { SOCKET_PATH } from './Constants';
 import { GcsService } from './Service';
 import {Log} from './Log';
+import { MkError, MkInfo } from './ServiceUtils';
+function HandleCommand(input: any) : any {
+    
+    if (input.command == 'start') return ServiceUtils.StartService(input.service);
+    if (input.command == 'stop') return ServiceUtils.StopService(input.service);
+    if (input.command == 'install') return ServiceUtils.InstallService(input.service);
+    if (input.command == 'load') return ServiceUtils.LoadService(input.service);
+    if (input.command == 'list') return ServiceUtils.ListServices();
+
+    return MkError('Invalid command');
+
+}
 
 //create a unix socket server
 const server = net.createServer((client: any) => {
     client.on('data', (data: any) => {
         //convert data to json
         let json = JSON.parse(data);
-        console.log(json);
-        //retrn empty json
-        client.write(JSON.stringify({}));
+        //handle command
+        let response = HandleCommand(json);
+        //send response
+        client.write(JSON.stringify(response));
     });
 });
 

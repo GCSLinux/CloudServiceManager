@@ -112,3 +112,4 @@ async function StopAllServices(): Promise < void > {
 }
 
 export { LoadServices, StartService, StopService, InstallService, ListServices, LoadService, StopAllServices };
+export { MkError, MkInfo };
