@@ -11,6 +11,7 @@ const server = net.createServer((client: any) => {
     client.on('data', (data: any) => {
         //convert data to json
         let json = JSON.parse(data);
+        console.log(json);
         //retrn empty json
         client.write(JSON.stringify({}));
     });
