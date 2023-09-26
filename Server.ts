@@ -9,7 +9,8 @@ import {Log} from './Log';
 //create a unix socket server
 const server = net.createServer((client: any) => {
     client.on('data', (data: any) => {
-        console.log(data);
+        //convert data to json
+        let json = JSON.parse(data);
         //retrn empty json
         client.write(JSON.stringify({}));
     });
@@ -40,7 +41,7 @@ function Main() {
         fs.unlinkSync(SOCKET_PATH);
     }
     server.listen(SOCKET_PATH, () =>{
-        
+        Log('Server listening on ' + SOCKET_PATH);
     });
 }
 
