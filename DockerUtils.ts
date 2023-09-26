@@ -8,7 +8,9 @@ import { spawn } from 'child_process';
 const os = require('os');
 import { ProcedureStatus, GcsService } from './Service';
 
-import { file_root, SOCKET_PATH, GlobalDocker, DockerSocket } from './Constants';
+import { file_root, SOCKET_PATH, GlobalDocker } from './Constants';
+
+const socketPath = '/var/run/docker.sock';
 
 function RequestDocker(
     path: string,
@@ -17,7 +19,7 @@ function RequestDocker(
 ): Promise < string > {
     return new Promise((resolve, reject) => {
         // Create a Unix socket connection
-        const client = net.createConnection(DockerSocket);
+        const client = net.createConnection(socketPath);
 
         // Handle socket connection errors
         client.on('error', (err) => {
@@ -27,7 +29,7 @@ function RequestDocker(
         // Send an HTTP request to the Docker socket
         client.on('connect', () => {
             const options: http.RequestOptions = {
-                DockerSocket,
+                socketPath,
                 method,
                 path,
             };
