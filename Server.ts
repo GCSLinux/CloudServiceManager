@@ -9,7 +9,9 @@ import {Log} from './Log';
 //create a unix socket server
 const server = net.createServer((client: any) => {
     client.on('data', (data: any) => {
-
+        console.log(data);
+        //retrn empty json
+        client.write(JSON.stringify({}));
     });
 });
 
