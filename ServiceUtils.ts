@@ -102,7 +102,7 @@ function ListServices(): any {
     let services = Services.map((service: GcsService) => {
         return service.Serialize();
     });
-    return JSON.stringify(services);
+    return MkInfo(JSON.stringify(services));
 }
 
 async function StopAllServices(): Promise < void > {
